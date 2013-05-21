@@ -90,6 +90,8 @@ initTc hsc_env hsc_src keep_rn_syntax mod do_this
                            Nothing             -> newIORef emptyNameEnv } ;
 
         dependent_files_var <- newIORef [] ;
+        th_topdecls_var     <- newIORef [] ;
+        th_topnames_var     <- newIORef emptyNameSet ;
         let {
              maybe_rn_syntax :: forall a. a -> Maybe a ;
              maybe_rn_syntax empty_val
@@ -136,7 +138,9 @@ initTc hsc_env hsc_src keep_rn_syntax mod do_this
                 tcg_hpc            = False,
                 tcg_main           = Nothing,
                 tcg_safeInfer      = infer_var,
-                tcg_dependent_files = dependent_files_var
+                tcg_dependent_files = dependent_files_var,
+                tcg_th_topdecls    = th_topdecls_var,
+                tcg_th_topnames    = th_topnames_var
              } ;
              lcl_env = TcLclEnv {
                 tcl_errs       = errs_var,
